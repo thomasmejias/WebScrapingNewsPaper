@@ -14,7 +14,7 @@ The project consists of simple web scraping using Python to extract all the spor
 
 <p align="center">
 Extract the Sports News: <br/>
-<img src="https://i.imgur.com/62TgaWL.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://github.com/thomasmejias/WebScrapingNewsPaper/blob/main/Results/News.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 <br />
 <br />
 Create the CSV File:  <br/>

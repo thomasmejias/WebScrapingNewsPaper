@@ -18,19 +18,22 @@ Extract the Sports News: <br/>
 <br />
 <br />
 Create the CSV File:  <br/>
-<img src="https://i.imgur.com/tcTyMUE.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://github.com/thomasmejias/WebScrapingNewsPaper/blob/main/Results/FileCSV.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 <br />
 <br />
 Generate a report using R: <br/>
-<img src="https://i.imgur.com/nCIbXbg.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://github.com/thomasmejias/WebScrapingNewsPaper/blob/main/Results/V1.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 <br />
 <br />
   <br/>
-<img src="https://i.imgur.com/K71yaM2.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://github.com/thomasmejias/WebScrapingNewsPaper/blob/main/Results/V2.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 <br />
 <br />
   <br/>
-<img src="https://i.imgur.com/AeZkvFQ.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://github.com/thomasmejias/WebScrapingNewsPaper/blob/main/Results/V3.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<br />
+  <br/>
+<img src="https://github.com/thomasmejias/WebScrapingNewsPaper/blob/main/Results/V4.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 
 <!--

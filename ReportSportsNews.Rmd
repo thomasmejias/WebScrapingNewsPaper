@@ -1,0 +1,132 @@
+---
+title: "Online Sports News Analysis"
+author: "Thomas Mejias Loria"
+date: "2025-07-06"
+output: html_document
+---
+
+
+### Variable Declaration
+
+```{r setup , include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(lubridate)
+library(stringr)
+library(wordcloud)
+library(RColorBrewer)
+library(tm)
+library(tidytext)
+library(syuzhet)
+```
+
+### Import dataset
+
+```{r}
+news <- read_csv("articulos_lateja.csv")
+head(news)
+```
+
+### Transform Publication Dates from Spanish News into English Format
+```{r}
+# Step 1: Delete the time
+news$Fecha <- str_trim(str_extract(news$Fecha, "^\\d{2} de \\w+ \\d{4}"))
+
+# Step 2: Replace spanish months into english months
+month_spanish <- c("enero", "febrero", "marzo", "abril", "mayo", "junio",
+               "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre")
+
+month_english <- c("January", "February", "March", "April", "May", "June",
+               "July", "August", "September", "October", "November", "December")
+
+for(i in 1:12) {
+  news$Fecha <- str_replace_all(news$Fecha, month_spanish[i], month_english[i])
+}
+
+# Step 3: Transform to Date
+news$Fecha <- dmy(news$Fecha)
+```
+
+### Data Transformation Result
+
+```{r}
+head(news$Fecha)
+```
+
+### Publication Frequency By Date
+
+```{r}
+frequency <- news %>%
+  group_by(Fecha) %>%
+  summarise(Total = n())
+
+ggplot(frequency, aes(x = Fecha, y = Total)) +
+  geom_col(fill = "steelblue") +
+  labs(title = "Publication Frequency By Date", x = "Date", y = "Total News") +
+  theme_minimal()
+```
+
+### Analysis by author
+
+```{r}
+top_author <- news %>%
+  group_by(Autor) %>%
+  summarise(Total = n()) %>%
+  arrange(desc(Total)) %>%
+  top_n(10, Total)
+
+top_author
+
+ggplot(top_author, aes(x = reorder(Autor, Total), y = Total)) +
+  geom_col(fill = "darkgreen") +
+  coord_flip() +
+  labs(title = "Top 10 Authors with the Most Published News", x = "Authors", y = "Total News") +
+  theme_minimal()
+
+```
+
+### Word cloud of the news titles
+
+```{r}
+# 1. Create words list
+titles_words <- news %>%
+  unnest_tokens(word, Titulo)
+
+# 2. Delete stop words
+data("stop_words")
+
+stopwords_es <- c(stopwords("spanish"), "de", "la", "el", "en", "a", "y", "los", "las", "un", "una") 
+
+titles_filter <- titles_words %>%
+  filter(!word %in% stopwords_es) %>%
+  count(word, sort = TRUE)
+
+# 3. Generate Word cloud
+set.seed(1234) 
+
+wordcloud(words = titles_filter$word, 
+          freq = titles_filter$n, 
+          min.freq = 2,
+          max.words = 100, 
+          random.order = FALSE, 
+          colors = brewer.pal(8, "Dark2"))
+
+```
+
+### Sentiment analysis of the news titles
+
+```{r}
+# Obtain normalized words
+words <- unlist(stringr::str_split(tolower(news$Titulo), "\\s+"))
+
+# Analyzing sentiments with Spanish NRC
+sentiment_scores <- get_nrc_sentiment(words, lang = "spanish")  
+
+# Frequency summary
+sentiment_sum <- colSums(sentiment_scores)
+
+barplot(sentiment_sum, las = 2, col = rainbow(length(sentiment_sum)),
+        main = "Frequency of emotions (NRC, Spanish)")
+```
